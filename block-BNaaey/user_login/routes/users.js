@@ -45,7 +45,7 @@ router.post('/login', async (req, res, next) => {
 
   if (!user) {
     // on login, if the entered user does not exist in db send back to login page
-    return res.redirect('/users/login');
+    res.redirect('/users/login');
   }
 
   //after these 2 checks, we now have a legit (registered) user. Therefore, verify his password.
@@ -55,7 +55,7 @@ router.post('/login', async (req, res, next) => {
     if (err) return next(err);
     if (!result) {
       // if hash dosent match the entered string passwd go back to login
-      res.redirect('/users/login');
+      return res.redirect('/users/login');
     }
     //But if hash matches the passwd entered, then persist data in DB.
     //Create session in app.js
