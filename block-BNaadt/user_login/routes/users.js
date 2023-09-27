@@ -10,14 +10,31 @@ router.get('/', function (req, res, next) {
 
 /* ------- Handle a GET request on `/users/register` where render the registration form ------*/
 router.get('/register', async (req, res, next) => {
-  res.render('registerForm');
+  var error = req.flash('error');
+  res.render('registerForm', { error });
 });
 
 /* ------- Handle a POST request on `/users/register` where we will capture the data & save it into mongoDB database ------*/
 router.post('/register', async (req, res, next) => {
-  var newUser = await User.create(req.body);
-  console.log(`inside user.create() router`);
-  res.redirect('/users/login');
+  try {
+    var newUser = await User.create(req.body);
+    console.log(`inside user.create() router`);
+    return res.redirect('/users/login');
+  } catch (err) {
+    console.log(`We ar in here!!!!!!!!!`);
+    // return res.json({ err });
+
+    // // Handle the error based on its type
+    if (err.name === 'ValidationError') {
+      if (err.errors.email) {
+        req.flash('error', 'Email is already taken.');
+      }
+      if (err.errors.password) {
+        req.flash('error', 'Password must be at least 5 characters long.');
+      }
+    }
+    res.redirect('/users/register');
+  }
 });
 /*-----------------handle a GET request on `/users/login` to render the login form which should accept ----------------*/
 router.get('/login', async (req, res, next) => {
@@ -46,7 +63,8 @@ router.post('/login', async (req, res, next) => {
 
   if (!user) {
     // on login, if the entered user does not exist in db send back to login page
-    res.redirect('/users/login');
+    req.flash('error', 'This user is not registered. Register First!!');
+    return res.redirect('/users/login');
   }
 
   if (password.length < 4) {

@@ -9,6 +9,9 @@
   <body>
     <div class="block">
       <h1>Register User Form</h1>
+      <% if(error){ %>
+      <p style="color: red; font-size: 1rem"><%= error %></p>
+      <% } %>
       <form action="/users/register" method="post">
         <label for="name">Name:</label>
         <input type="text" name="name" placeholder="Enter your Name" />
