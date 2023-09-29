@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1.0, initial-scale=1.0" />
+    <link rel="stylesheet" href="/stylesheets/registerForm.css" />
+    <title>User REGISTRATION Form</title>
+  </head>
+  <body>
+    <div class="block">
+      <h1>Register User Form</h1>
+      <form action="/users/register" method="post">
+        <label for="name">Name:</label>
+        <input type="text" name="name" placeholder="Enter your Name" />
+
+        <label for="email">Email:</label>
+        <input type="email" name="email" placeholder="Enter your email" />
+
+        <label for="password">Password:</label>
+        <input
+          type="password"
+          name="password"
+          placeholder="Enter a password atleast 5 chars long"
+        />
+
+        <input type="submit" value="Register" />
+      </form>
+    </div>
+  </body>
+</html>
